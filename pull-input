@@ -1,0 +1,12 @@
+#usr/bin/env zsh
+
+source .env
+
+if  test "$#" -ne 1; then
+  echo "no day parameter passed"
+  exit 1
+fi
+
+day=$1
+
+curl -b "session=${SESSION}" "https://adventofcode.com/2023/day/$day/input" > "input/Day${day}.txt"

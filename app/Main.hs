@@ -59,13 +59,17 @@ dayParser = (OneDay <$> day <*> input) <|> allDays
   where
     day =
       option auto $
-        long "day" <> short 'd' <> metavar "DAY"
+        long "day"
+          <> short 'd'
+          <> metavar "DAY"
           <> help "Present the solutions for one day."
 
     input =
       optional $
         strOption $
-          long "input" <> short 'i' <> metavar "FILE"
+          long "input"
+            <> short 'i'
+            <> metavar "FILE"
             <> help "The file to read the selected day's input from."
 
     allDays =
@@ -84,8 +88,8 @@ optionsParser = Options <$> dayParser <*> verbosityParser
     verbosityParser :: Parser Verbosity
     verbosityParser =
       C.option Quiet $
-        ( flag' Verbose $
-            long "verbose" <> short 'v'
+        flag' Verbose (long "verbose"
+              <> short 'v'
               <> help
                 ( unwords
                     [ "Whether to print out extra info, such as the",
@@ -93,28 +97,26 @@ optionsParser = Options <$> dayParser <*> verbosityParser
                       "error messages.",
                       "Also enables timing of solutions."
                     ]
-                )
-        )
-          <|> ( flag' Timings $
-                  long "timings" <> short 't'
+                ))
+          <|> flag' Timings (long "timings"
+                    <> short 't'
                     <> help
                       ( unwords
                           ["Whether to enable timing of the solutions."]
-                      )
-              )
+                      ))
 
 days :: Map Int (Day, String)
 days =
   Map.fromList . zip [1 ..] $
-    [ (Day01.runDay, "input/Day01.txt"),
-      (Day02.runDay, "input/Day02.txt"),
-      (Day03.runDay, "input/Day03.txt"),
-      (Day04.runDay, "input/Day04.txt"),
-      (Day05.runDay, "input/Day05.txt"),
-      (Day06.runDay, "input/Day06.txt"),
-      (Day07.runDay, "input/Day07.txt"),
-      (Day08.runDay, "input/Day08.txt"),
-      (Day09.runDay, "input/Day09.txt"),
+    [ (Day01.runDay, "input/Day1.txt"),
+      (Day02.runDay, "input/Day2.txt"),
+      (Day03.runDay, "input/Day3.txt"),
+      (Day04.runDay, "input/Day4.txt"),
+      (Day05.runDay, "input/Day5.txt"),
+      (Day06.runDay, "input/Day6.txt"),
+      (Day07.runDay, "input/Day7.txt"),
+      (Day08.runDay, "input/Day8.txt"),
+      (Day09.runDay, "input/Day9.txt"),
       (Day10.runDay, "input/Day10.txt"),
       (Day11.runDay, "input/Day11.txt"),
       (Day12.runDay, "input/Day12.txt"),
