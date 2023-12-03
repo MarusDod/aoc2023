@@ -71,6 +71,7 @@ library
     , base
     , containers
     , directory
+    , extra
     , mtl
     , optparse-applicative
     , parser-combinators
@@ -101,6 +102,7 @@ executable aoc2023-exe
     , base
     , containers
     , directory
+    , extra
     , mtl
     , optparse-applicative
     , parser-combinators

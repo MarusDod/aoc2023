@@ -29,6 +29,7 @@ dependencies:
   - optparse-applicative
   - parser-combinators
   - vector
+  - extra
 
 library:
   source-dirs: src

@@ -41,6 +41,7 @@ extra-deps:
   - optparse-applicative-0.18.1.0@sha256:b4cf8d9018e5e67cb1f14edb5130b6d05ad8bc1b5f6bd4efaa6ec0b7f28f559d,5132
   - parser-combinators-1.3.0@sha256:8659573e0d443d573f5b53f81b81dafbdc988d282b90c11e3da73562b4ea7876,1640
   - vector-0.13.1.0@sha256:4650d28eb918812a3158130f833b5ff5020259b28a8f9ee5d28701ce60cf8a16,8997
+  - extra-1.7.14
 
 # Override default flag values for local packages and extra-deps
 # flags: {}
