@@ -1,4 +1,4 @@
-module Days.Day02 (runDay,inputParser) where
+module Days.Day02 (runDay) where
 
 {- ORMOLU_DISABLE -}
 import Data.List
@@ -30,7 +30,6 @@ inputParser = sepBy line endOfLine
     where line = string "Game " >> decimal >> char ':' >> sepBy parseSet (char ';')
           parseSet = sepBy parseCube (char ',')
           parseCube = (,) <$> (space >> decimal <* space) <*> parseColor
-
           parseColor :: Parser Color
           parseColor = choice $ map (fmap (read . unpack) . string)  ["blue","green","red"]
 
@@ -54,7 +53,7 @@ type Input = [Game]
 
 type OutputA = Int
 
-type OutputB = [[(Color,Int)]]
+type OutputB = Int
 
 ------------ PART A ------------
 cap = [(Green,13),(Red,12),(Blue,14)]
@@ -65,7 +64,7 @@ partA x = sum $ map snd $ filter (\(x,i) -> isValidGame x) $ zip x [1..]
           isValidGame = not . any (any (\(n,color) -> maybe False (n >) (lookup color cap) ))
 
 ------------ PART B ------------
---partB :: Input -> OutputB
+partB :: Input -> OutputB
 partB = sum . map (product . minCubes)
     where minCubes = map (snd . maximumBy (compare `on` snd)) .
            groupBy ((==) `on` fst) . sortBy (compare `on` fst) . map swap . concat -- . groupBy (\x y -> fst x == fst y) . concat

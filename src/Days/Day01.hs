@@ -1,4 +1,4 @@
-module Days.Day01 (runDay,lookAhead,numberParser,notFollowedBy) where
+module Days.Day01 (runDay) where
 
 import Data.List
 import Data.Map.Strict (Map)
@@ -33,14 +33,12 @@ runDay :: R.Day
 runDay = R.runDay inputParser partA partB
 
 ------------ PARSER ------------
-notFollowedBy p = join (lookAhead p $> empty <|> pure (pure ()) )
-
-skipOneChar p = lookAhead p <* void anyChar 
-    
 
 numberParser :: Parser Int
 numberParser = 
     let nums = zip ["one","two","three","four","five","six","seven","eight","nine"] [1..]
+        skipOneChar p = lookAhead p <* void anyChar 
+        notFollowedBy p = join (lookAhead p $> empty <|> pure (pure ()) )
         p = choice $ map (\(x,y) -> string x $> y ) nums ++ 
             map (fmap (read . unpack) . string . pack . show) [1..9]
     in do
