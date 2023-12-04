@@ -5,15 +5,9 @@ import Data.List
 import Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
 import Data.Maybe
-import Data.Set (Set)
-import qualified Data.Set as Set
-import Data.Vector (Vector)
-import qualified Data.Vector as Vec
-import qualified Util.Util as U
 
 import qualified Program.RunDay as R (runDay, Day)
 import Data.Attoparsec.Text
-import Data.Void
 {- ORMOLU_ENABLE -}
 
 runDay :: R.Day
@@ -21,19 +15,31 @@ runDay = R.runDay inputParser partA partB
 
 ------------ PARSER ------------
 inputParser :: Parser Input
-inputParser = error "Not implemented yet!"
+inputParser = sepBy line endOfLine
+    where space = many' (char ' ')
+          numberParser = space *> decimal <* space
+          line = (,) <$> (string "Card" >> space >> decimal >> char ':' >> many' numberParser) <*> (string "|" >> many' numberParser)
+
+countCommon _ [] = 0
+countCommon [] _ = 0
+countCommon (x:xs) ys = let a = if x `elem` ys then 1 else 0
+        in a + countCommon xs ys
 
 ------------ TYPES ------------
-type Input = Void
+type Input = [([Int],[Int])]
 
-type OutputA = Void
+type OutputA = Int
 
-type OutputB = Void
+type OutputB = Int
 
 ------------ PART A ------------
 partA :: Input -> OutputA
-partA = error "Not implemented yet!"
+partA = sum . map (uncurry calcPoints)
+    where calcPoints xs = (\x -> if x == 0 then 0 else 2 ^ (x-1)) . countCommon xs
+
 
 ------------ PART B ------------
 partB :: Input -> OutputB
-partB = error "Not implemented yet!"
+partB xs = sum $ fst $ foldl traverseScratchCards ([],repeat 1) cards
+    where cards = map (uncurry countCommon) xs
+          traverseScratchCards (accum,times : next) x = (times: accum,zipWith (+) next $ replicate x times ++ repeat 0)
